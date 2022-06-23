@@ -1,4 +1,4 @@
-The notes from the course [*Statistical Methods for Microbiome Analysis*](https://mesioupcub.masters.upc.edu/en/xv-summer-school-2022/courses/statistical-methods-for-microbiome-analysis), organized by MESIO UPC-UB XV Summer School, are available in: **ENLACE**
+The notes from the course [*Statistical Methods for Microbiome Analysis*](https://mesioupcub.masters.upc.edu/en/xv-summer-school-2022/courses/statistical-methods-for-microbiome-analysis), organized by MESIO UPC-UB XV Summer School, are available in [**this website**](https://joancg.github.io/curso_microbiomeAnalysis/)
 
 The course was taught by [Malu Calle](https://mon.uvic.cat/bms/members/malu/), from Universidad de Vic. 
 

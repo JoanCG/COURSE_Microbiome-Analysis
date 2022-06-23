@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Day 1 - Statistical Methods for Microbiome Analysis</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="generator" content="mkdocs-1.2.3, mkdocs-gitbook-1.0.7">
+
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta rel="next" href="" />
+<link href="../css/style.min.css" rel="stylesheet"> 
+</head>
+
+<body>
+<div class="book">
+<div class="book-summary">
+
+<nav role="navigation">
+<ul class="summary">
+<li>
+<a href=".." target="_blank" class="custom-link">Statistical Methods for Microbiome Analysis</a>
+</li>
+<li class="divider"></li>
+<li class="chapter" data-path="">
+<a href="..">Home</a>
+<li class="chapter active" data-path="day1/">
+<a href="./">Day 1</a>
+<li class="chapter" data-path="day2/">
+<a href="../day2/">Day 2</a>
+<li class="chapter" data-path="materials/">
+<a href="../materials/">Materials</a>
+<li class="divider"></li>
+
+
+
+<li><a href="http://www.mkdocs.org">
+Published with MkDocs
+</a></li>
+
+<li><a href="https://github.com/GitbookIO/theme-default">
+Theme by GitBook
+</a></li>
+</ul>
+
+</nav>
+
+</div> <!-- end of book-summary -->
+
+<div class="book-body">
+<div class="body-inner">
+<div class="book-header" role="navigation">
+
+<!-- Title -->
+<h1>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+<a href="." ></a>
+</h1>
+
+</div> <!-- end of book-header -->
+
+<div class="page-wrapper" tabindex="-1" role="main">
+<div class="page-inner">
+
+<section class="normal markdown-section">
+
+
+
+<h1 id="introduction-to-microbiome-data">Introduction to microbiome data</h1>
+<hr />
+<h3 id="1-about-microbiome">1. About microbiome</h3>
+<ul>
+<li>
+<p><strong>Disbiosis</strong> is the alteration of the microbial composition equilibrium. Disbiosis is associated with illnes when pathogenic microorganisms are favoured over symbiotic ones. </p>
+</li>
+<li>
+<p>Besides disbiosis, reduction of microbial diversity is also associated with disease. </p>
+</li>
+<li>
+<p>Metagenomic data are informative on the functional potential of a given microbial population, since it provides both the genes present in the population and the abundances of this genes.</p>
+</li>
+</ul>
+<h3 id="2-descriptive-analyses-and-visualization">2. Descriptive analyses and visualization</h3>
+<h4 id="heatmaps-for-distribution-of-abundances">Heatmaps for distribution of abundances</h4>
+<p>Microbial abundances are zero-inflated, meaning that most microorganisms are present in only a few samples. Moreover, the are highly leptokurtic: few microorganims are very abundant in comparison with the rest. A <strong>heatmap of abundances</strong> can be a nice way to visualize both properties in our dataset. </p>
+<table>
+<thead>
+<tr>
+<th><img alt="heatmap" src="../img/heatmap.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 1.</strong> Heatmap built from our QC-filtered PIGBIOTA data (2945 ASVs). <em>It is not very informative, but maybe with less ASVs (most prevalent ones) it would be more useful.</em></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>A raíz de esto, se me ocurre que podríamos comparar como afecta el QC para los análisis de inferencia. ¿Se obtendrán los mismos resultados si empleamos 2945 ASVs que si empleamos los ~400 ASVs más prevalentes? En teoría los que se eliminarían deberían ser poco informativos...</em></p>
+</blockquote>
+<h4 id="rarefaction-curves-for-coverage">Rarefaction curves for coverage</h4>
+<p>Rarefaction curves plot the <strong>observed richness against different rarefaction depths</strong>. </p>
+<table>
+<thead>
+<tr>
+<th><img alt="rarefaction_curve" src="../img/rarefaction_curve.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 2.</strong> Example rarefaction curve. <em>Figure taken from the course presentation (1), slide 63.</em></td>
+</tr>
+</tbody>
+</table>
+<p>If a curve is reaching a <em>plateau</em>, then the sample has enough coverage and captures decently the its microbial composition (M31Fcsw and M11Fcsw curves in <em>Figure 2</em>). However, if there is still a great increase in richness with increasing sequencing depths, more coverage would be neccesary for those samples (SV1, CL3 and CC1 in <em>Figure 2</em>). </p>
+<h4 id="alpha-diversity-indexes-explained">Alpha-diversity: indexes explained</h4>
+<p>These are important because, like previously noted, a reduced diversity is associated with disease in humans.</p>
+<p><strong>Chao1:</strong> applies a correction to richness (observed number of species), taking into account singletons and doubletons (microorganisms that are observed only once or twice, respectively). </p>
+<p><strong>Shannon:</strong> measures the evenness of the abundance distribution. Its interpretation is difficult, it depends on the values of the other samples.</p>
+<p><strong>Effective number of species:</strong> it provides an easier interpretation than Shannon index. It indicated the number of species that "dominate" the sample. It is calculated as the exponential of the Shannon index. </p>
+<pre><code>effective_number_species &lt;- exp(shannon_index)
+</code></pre>
+<h4 id="beta-diversity-distances-explained">Beta-diversity: distances explained</h4>
+<p>A good <strong>ecological distance describes the difference in species compositions</strong>. The euclidean distance is not a good ecological distance, as can be seen in <em>Figure 3</em>:</p>
+<table>
+<thead>
+<tr>
+<th><img alt="euclidean_distance" src="../img/euclidean_dist.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 3.</strong> Toy example for the bias introducid by Euclidean distance as an ecological distance. <em>Figure taken from the course presentation (1), slide 65.</em></td>
+</tr>
+</tbody>
+</table>
+<p>In the toy abundance table in the left of <em>Figure 3</em>, we can see that samples A and B composition are more similar between them than compared to C. The have the same microorganisms, they just differ in the abundances. However, the smallest euclidean distance (<em>Figure 3, right</em>) is the pair A-C.  </p>
+<p>The following distances or <em>dissimilarities</em> are commonly used as ecological distances:</p>
+<ul>
+<li>
+<p><strong>Bray-Curtis dissimilarity:</strong> absolute value of the diference between the abundances divided by the sum of the abundances. </p>
+</li>
+<li>
+<p><strong>Jaccard dissimilarity:</strong> divides the sum of the minimum abundances of each pair of samples between the sum of the maximum. </p>
+</li>
+<li>
+<p><strong>UniFranc dissimilarity:</strong> takes into account the phylogenetic relationship of microorganisms. It is the sum of the length of unique branches (only on one sample) for each taxa divided by the sum of the length of braches that contain both taxa (<em>Figure 4</em>)</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><img alt="unifrac_distance" src="../img/unifrac_dist.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 4.</strong> Toy example for the UniFranc distance <em>Figure taken from the course presentation (1), slide 67.</em></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>weighted-UniFranc dissimilarity:</strong> same as the unweighted, but it also takes into account the relative abundance of each taxa. </li>
+</ul>
+<p>It is important to note that dissimilarities are valid for "raw" abundances, but <strong>but bias appears with relative abundances</strong>. Compositional transformations (like Total Sum Scaling) restrict the space of the values because of the elements in the sample have to sum 1. This reflects in the ordinations, like can be appreciated in <em>Figure 5</em>:</p>
+<table>
+<thead>
+<tr>
+<th><img alt="MDS_with_BC_distance" src="../img/BC_MDS.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="MDS_with_wUF_distance" src="../img/wUF_MDS.png" /></td>
+</tr>
+<tr>
+<td><strong>Figure 5.</strong> Examples for the MDS ordination using Bray-Curtis and weighted-UniFranc distances for PCoA (MDS) ordination <em>Figures generated in the exercise 2. g) of the course <a href="../materials/practical_exercise.R">practical exercise</a>.</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="beta-diversity-visualization-ordination">Beta-diversity visualization: ordination</h4>
+<p>Visualization of beta-diversity is usefull for identifying possible data structures. <strong>Ordination is the graphical representation of data along a reduced number of orthogonal axes</strong> while preserving distance relationships as well as possible. PCA preserves Euclidean distance, and thus it is not appropiate for abundances. </p>
+<blockquote>
+<p><strong>NOTE: it is appropiate for log-ratio transformed abundances (for example, CLR-transformed abundances).</strong></p>
+</blockquote>
+<p><strong>PCoA (also called multidimensional scaling or MDS) is</strong> an extension of PCA that is <strong>useful for representation of beta-diversity dissimilarities</strong>. The main difference is that PCA performs eigenvalue decomposition on the covariance matrix (calculated from data matrix), while PCoA does it on the a matrix calculated <strong>from centered distance matrix</strong>. For the Euclidean distance, PCA = PCoA. </p>
+<p>For non-metric dissimilarities (or distances), eigenvalue decomposition might not be optimal like it is for euclidean distances (<a href="../materials/MCalle_slides_microbiome_UPC2022_1.pdf"><em>slide 74</em></a>). For this cases, we have Nonmetric Multidimensional Scaling (NMDS). It is an iterative algorithm that maximizes the rank-based correlation between the original distances and the distances in the new ordination. </p>
+<hr />
+<h6 id="20062022">20/06/2022</h6>
+
+
+</section>
+
+</div> <!-- end of page-inner -->
+</div> <!-- end of page-wrapper -->
+
+</div> <!-- end of body-inner -->
+
+</div> <!-- end of book-body -->
+<script src="../js/main.js"></script>
+<script src="../js/gitbook.min.js"></script>
+<script src="../js/theme.min.js"></script>
+</body>
+</html>
