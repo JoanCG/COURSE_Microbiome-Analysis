@@ -1,0 +1,7 @@
+site_name: Statistical Methods for Microbiome Analysis
+
+theme:
+  name: gitbook
+  logo: img/logo.png
+
+plugins: []
