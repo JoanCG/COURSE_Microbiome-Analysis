@@ -4,30 +4,22 @@ title: Materials
 
 ### About Malu Calle (instructor)
 
-[**Personal profile**](https://mon.uvic.cat/bms/members/malu/)
+About [**Malu Calle**](https://mon.uvic.cat/bms/members/malu/):
 
-[**coda4microbiome**](https://malucalle.github.io/coda4microbiome/)
+· They developped a package called [**coda4microbiome**](https://malucalle.github.io/coda4microbiome/) for compositional data (microbiome, for example) analysis. 
 
-[**Variable selection paper**](https://doi.org/10.1093/nargab/lqaa029)
+· They have an interesnting [**paper**](https://doi.org/10.1093/nargab/lqaa029) on microbiota variable selection. 
+
+· They have some [**tutorials**](https://malucalle.github.io/coda4microbiome/tutorial) on differential abundance testing using *coda4microbiome*
 
 
 ### Course material
 
-##### Slides
+[**Presentation 1: **](materials/MCalle_slides_microbiome_UPC2022_1.pdf) introduction, exploratory analysis (descriptive analysis, alpha and beta diversity), compositional data analysis, differential abundance testing
 
-[**Presentation 1 (compositional data)**](materials/MCalle_slides_microbiome_UPC2022_1.pdf)
+[**Presentation 2:**](materials/MCalle_slides_microbiome_UPC2022_2.pdf) compositional data (transformations, bias), compositional balances, coda4microbiome
 
-[**Presentation 2 (differential abundance testing)**](materials/MCalle_slides_microbiome_UPC2022_2.pdf)
-
-
-##### Tutorials
-
-[**Course tutorial**](materials/rmarkdown_microbiome_with_results.html)
-
-[**Extra tutorials**](https://malucalle.github.io/coda4microbiome/tutorial)
-
-
-
+[**Course tutorial:**](materials/rmarkdown_microbiome_with_results.html) includes code and figures for exploratory analyses
 
 
 ### Practical exercises

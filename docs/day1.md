@@ -25,7 +25,7 @@ Microbial abundances are zero-inflated, meaning that most microorganisms are pre
 | |
 | **Figure 1.** Heatmap built from our QC-filtered PIGBIOTA data (2945 ASVs). *It is not very informative, but maybe with less ASVs (most prevalent ones) it would be more useful.* |
 
-> *A raíz de esto, se me ocurre que podríamos comparar como afecta el QC para los análisis de inferencia. ¿Se obtendrán los mismos resultados si empleamos 2945 ASVs que si empleamos los ~400 ASVs más prevalentes? En teoría los que se eliminarían deberían ser poco informativos...*
+> *A raíz de esto, se me ocurre que podríamos comparar como afecta el QC para los análisis de inferencia. ¿Se obtendrán los mismos resultados si empleamos 2945 ASVs que si empleamos los ~400 ASVs más prevalentes? En teoría los que se eliminarían deberían ser poco informativos, pero quizá detectan microorganismos con poca prevalencia pero con mucho efecto...*
 
 
 #### Rarefaction curves for coverage
@@ -82,7 +82,7 @@ It is important to note that dissimilarities are valid for "raw" abundances, but
 | ![MDS_with_BC_distance](img/BC_MDS.png) |
 | |
 | ![MDS_with_wUF_distance](img/wUF_MDS.png) |
-| **Figure 5.** Examples for the MDS ordination using Bray-Curtis and weighted-UniFranc distances for PCoA (MDS) ordination *Figures generated in the exercise 2. g) of the course [practical exercise](materials/practical_exercise.R).* |
+| **Figure 5.** Examples for the MDS ordination using Bray-Curtis and weighted-UniFranc distances for PCoA (MDS) ordination *Figures generated in the exercise 2. g) of the course [practical exercise](materials/practical_exercise1.R).* |
 
 
 #### Beta-diversity visualization: ordination

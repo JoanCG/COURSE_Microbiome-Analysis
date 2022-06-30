@@ -10,9 +10,9 @@ I took the course presentially in the [Faculty of Mathematics and Statistics of 
 
 ## Course objectives
 
-1. Descriptive analysis and visualization
+1. Descriptive analysis and visualization of microbiome data
 
-2. Differential abundance analysis (small datasets):
+2. Differential abundance analysis (mainly for small datasets):
 
 	- **Multivariate:** Are there differences between microbial abundances?
 	- **Univariado:** Which are the microorganisms that are differentially abundant? 
