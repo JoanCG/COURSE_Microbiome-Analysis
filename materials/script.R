@@ -261,3 +261,45 @@ coda_glmnet_SCD14$`apparent Rsq`
 #------------------------------------#
 
 Crohn_logratios<-explore_logratios(x=x_Crohn,y=y_Crohn, measure = "glm")
+
+
+
+
+
+
+#--------------------------------------#
+
+rm(list=ls())
+
+
+#------------------------------------#
+#       Longitudinal signature       #
+#------------------------------------#
+
+set.seed(123) # to reproduce the results
+
+data(ecam_filtered, package = "coda4microbiome")   # load the data
+
+x=x_ecam # microbiome abundance
+x_time = metadata$day_of_life;    # observation times
+subject_id = metadata$studyid;   # subject id
+y= metadata$diet;           # diet ("bd"= breast diet, "fd"=formula diet)
+ini_time = 0;
+end_time = 90;
+ecam_logratios<-explore_lr_longitudinal(x,y, x_time, subject_id, ini_time, end_time)
+
+ecam_logratios$`order of importance`
+ecam_logratios$`name of most important variables`
+ecam_logratios$`max log-ratio`
+taxanames[as.numeric(ecam_logratios$`max log-ratio`)]
+
+plot_signature_curves(c(30,35), c(-1,1),x,y, x_time, subject_id, ini_time, end_time)
+
+
+#------------------------------------#
+#         Variable-selection         #
+#------------------------------------#
+
+set.seed(123)
+
+ecam <-coda_glmnet_longitudinal (x,y, x_time, subject_id, ini_time, end_time, lambda="lambda.min",nfolds=4)
