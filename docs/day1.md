@@ -1,8 +1,10 @@
 ---
-title: Day 1
+title: Introduction to microbiome data
 ---
 
 # Introduction to microbiome data
+
+*For this section, mainly [Presentation 1](materials/MCalle_slides_microbiome_UPC2022_1.pdf) is used*
 
 ---
 
@@ -82,7 +84,7 @@ It is important to note that dissimilarities are valid for "raw" abundances, but
 | ![MDS_with_BC_distance](img/BC_MDS.png) |
 | |
 | ![MDS_with_wUF_distance](img/wUF_MDS.png) |
-| **Figure 5.** Examples for the MDS ordination using Bray-Curtis and weighted-UniFranc distances for PCoA (MDS) ordination *Figures generated in the exercise 2. g) of the course [practical exercise](materials/practical_exercise1.R).* |
+| **Figure 5.** Examples of the MDS ordination using Bray-Curtis and weighted-UniFranc distances for PCoA (MDS) ordination *Figures generated in the exercise 2.g) of the [practical exercise](materials/practical_exercise1.R).* |
 
 
 #### Beta-diversity visualization: ordination
