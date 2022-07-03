@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>Day 2 - Statistical Methods for Microbiome Analysis</title>
+<title>Compositionality of microbial abundance data - Statistical Methods for Microbiome Analysis</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <meta name="generator" content="mkdocs-1.2.3, mkdocs-gitbook-1.0.7">
@@ -30,9 +30,9 @@
 <li class="chapter" data-path="">
 <a href="..">Home</a>
 <li class="chapter" data-path="day1/">
-<a href="../day1/">Day 1</a>
+<a href="../day1/">Introduction to microbiome data</a>
 <li class="chapter active" data-path="day2/">
-<a href="./">Day 2</a>
+<a href="./">Compositionality of microbial abundance data</a>
 <li class="chapter" data-path="materials/">
 <a href="../materials/">Materials</a>
 <li class="divider"></li>
@@ -72,10 +72,157 @@ Theme by GitBook
 
 
 <h1 id="compositionality-of-microbial-abundance-data">Compositionality of microbial abundance data</h1>
+<p><em>For this section we use both <a href="../materials/MCalle_slides_microbiome_UPC2022_1.pdf">Presentation 1</a> and <a href="../materials/MCalle_slides_microbiome_UPC2022_2.pdf">Presentation 2</a></em></p>
 <hr />
 <h3 id="1-multivariate-testing">1. Multivariate testing</h3>
+<p><em>[slides 77 and 78 of <a href="../materials/MCalle_slides_microbiome_UPC2022_1.pdf">Presentation 1</a>]</em></p>
+<p>The PERMANOVA ananlysis compares within class variation between two or more different classes. The <em>adonis</em> function of the <em>vegan</em> R package performs a <strong>multivariate ANOVA</strong> based on dissimilarites (ecological distances), which is the same as a PERMANOVA. </p>
+<blockquote>
+<p><em>perm</em> comes from "permutations", since they are used to generate a distribution of a pseudo-statistic F under the nulle hypothesis for the evaluation of significance. </p>
+</blockquote>
+<p>In this example, we tested for differences in the different sample types of the dataset used for practice (<em>GlobalPatterns</em>):</p>
+<pre><code>adonis2(BC.dist.human~sample_data(data.human)$SampleType)
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = BC.dist.human ~ sample_data(data.human)$SampleType)
+                                   Df SumOfSqs      R2      F Pr(&gt;F)   
+sample_data(data.human)$SampleType  2   1.5534 0.46469 2.6042  0.002 **
+Residual                            6   1.7895 0.53531                 
+Total                               8   3.3429 1.00000                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</code></pre>
+<p>Differences were found, and the probability of those differences being due to chance (p.value) were 0.002. </p>
+<h3 id="2-compositional-data-analysis">2. Compositional data analysis</h3>
+<p><em>[<a href="../materials/MCalle_slides_microbiome_UPC2022_2.pdf">Presentation 2</a>]</em></p>
+<p>With compositional data (CoDa) like microbial abundances we can only aim for a representation of what is happening there, but it is not possible to obtain the true composition. Furthermore, the different samples have different total counts, which makes them non comparable. Therefore, this data is normally analysed in terms of <strong>relative data</strong>. The main problem with <strong>relative data</strong> is that it <strong>is restricted: all the elements add up to a certain value</strong> (usually 1). With this restriction come some important problem.</p>
+<h4 id="problems-of-compositional-data-for-its-analysis">Problems of compositional data for its analysis</h4>
+<p>Let's imagine this scenario, illustrated by <em>Figure 1</em>: we have two different samples composed by the same elements, and have exactly the same "absolute" abundances for all of the elements except for one. However, <strong>one change in the "absolute" abundance modifies the relative abundances of all elements</strong>. </p>
+<table>
+<thead>
+<tr>
+<th><img alt="toy example compositional data" src="../img/toy_example_compositions.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 1.</strong> Illustration of a toy example where two samples have identical aboslute values for all its elements except for one, which leads to completely different relative compositions. <em>Figure taken from course presentation (2), slide 4</em></td>
+</tr>
+</tbody>
+</table>
+<p>This characteristic of compositionall data comes with certain problems. For the analysis of microbiome data, we highlight the following three:</p>
+<p><strong>Supurious correlations:</strong> analyzing restricted data (in this case, the sum of all values is equal to 1) leads to spurious correlations, since when an element increases its relative abundance, the others decrease theirs (<em>Figure 2</em>). </p>
+<blockquote>
+<p>Mathematically, <strong>if we have a dataset with two taxas and any given number of samples, the correlation between their relative abundances is always -1</strong>: there is an <strong>inverse, proportional change in their relative abundances</strong> because when one <em>increases</em>, the other one <em>decreases</em> (the reason for the negative "-" sign) with a change of the same magnitude (here you have the "1", because it is completely proportional). In a more complex dataset (more taxa) just because of the transformation in relative abundances, two or more variables will obtain negative correlations, even if there is no negative correlation between "absolute" abundances. <strong>The more taxa you have, the least bias you will obtain.</strong> But not any kind of taxa, but mainly effective components (Shannon's index exponential, <em>Day 1 lesson</em>). </p>
+</blockquote>
+<p><strong>Subcompositional incoherences:</strong> correlation between two taxa differ when a third taxa is removed (variable selection, for example (<em>Figure 3</em>). </p>
+<p><strong>False positive rates in differential abundance testing:</strong> as a consecuence of the mentioned challenges, it is frequent to obtain a high rato of false positives when analyzing compositional data (<em>Figure 4</em>).</p>
+<style>
+table th:first-of-type {
+    width: 33%;
+}
+table th:nth-of-type(2) {
+    width: 33%;
+}
+table th:nth-of-type(3) {
+    width: 33%;
+}
+</style>
+
+<table>
+<thead>
+<tr>
+<th><img alt="toy example spurious correlations" src="../img/toy_example_spuriousCor.png" /></th>
+<th><img alt="toy example subcompositional incoherence" src="../img/toy_example_subcompIncoherence.png" /></th>
+<th><img alt="toy example false positive" src="../img/toy_example_falsePositive.png" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure 2.</strong> Toy example for spurious correlations. <em>Figure taken from course presentation (2), slide 8.</em></td>
+<td><strong>Figure 3.</strong> Toy examplefor subcompositional incoherence. <em>Figure taken from course presentation (2), slide 9.</em></td>
+<td><strong>Figure 4.</strong> Toy example for false positive in differential abundance testing. <em>Figure taken from course presentation (2), slide 10.</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="properties-of-compositional-data">Properties of compositional data</h4>
+<p>The fact that information is relative means that each data point does is not informative <em>per se</em>, it depends on the values of the other elements. This restricted space where the composition is defined is called <strong>simplex</strong>, and it has a different geometry due to its restriction.</p>
+<p>The three main principles of CoDa are:</p>
+<ol>
+<li><strong>Permutation invariance:</strong> elements can be arrenged in any given order without affecting analyses</li>
+<li><strong>Scale invariance:</strong> multiplying by a constant should not affect the analyses. </li>
+<li><strong>Sub-compositional coherence:</strong> important, since we usually work with sub-compositions (i.e., variable selection)</li>
+</ol>
+<p>We will focus on the last two of them</p>
+<h6 id="scale-invariat-transformations">Scale-invariat transformations</h6>
+<p>This transformations allow to move our date from the <em>simplex</em> to the real space maintaining the distance between samples. The most popular and simple transformations are log-ratios. There several types: <strong>log-proportions</strong> (log TSS), <strong>alr</strong>, <strong>clr</strong>, etc.</p>
+<blockquote>
+<p>In clr-transformation, the log of each abundance is divided by the geometric mean of the abundances. The geometric mean is the arithmetic mean of the log values. </p>
+</blockquote>
+<p>However, <strong>these transformations apply a certain bias when calculating the differential abundance between two samples</strong>. As we can see in <em>Figure 5</em>, log-proportions have a bias that depends on both the changes in abundances and in the proportions of the abundances. </p>
+<table>
+<thead>
+<tr>
+<th><strong>LOG-PROPORTIONS (log-TSS) TRANSFORMATION</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="log-proportions bias" src="../img/log-proportions_bias.png" /></td>
+</tr>
+<tr>
+<td><strong>Figure 5.</strong> Bias of log-proportions transformation depends on fold-change between analyzed samples and on the abundances. <em>Figure taken from course presentation (2), slide 19.</em></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td><img alt="log-proportions bias example" src="../img/log-proportions_bias_ex.png" /></td>
+</tr>
+<tr>
+<td><strong>Figure 6.</strong> Example with toy dataset of the bias induced by log-proportions transformation. <em>Figure taken from course presentation (2), slide 23.</em></td>
+</tr>
+</tbody>
+</table>
+<p>For clr-transformation, there is still bias but it only depends on the fold change of the abundances between the samples (<em>Figure 7</em>). </p>
+<table>
+<thead>
+<tr>
+<th><strong>CLR TRANSFORMATION</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="clr bias" src="../img/clr_bias.png" /></td>
+</tr>
+<tr>
+<td><strong>Figure 7.</strong> Bias for clr-transformation depends on the geometric mean of the fold change. <em>Figure taken from course presentation (2), slide 20.</em></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td><img alt="clr bias example" src="../img/clr_bias_ex.png" /></td>
+</tr>
+<tr>
+<td><strong>Figure 8.</strong> Example with toy dataset of the bias induced by clr transformation. <em>Figure taken from course presentation (2), slide 23.</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="proposed-solution-compositional-balances-coda4microbiome">Proposed solution: compositional balances (coda4microbiome)</h4>
+<p><strong>There is no transformations that entirely solves this problems</strong>. Similar to CLR, there are some other transformations like ARL or IRL, but all of them have some drawbacks. Malu and his colaborators came up with a different approach as a <strong>solution</strong>: using <strong>log-contrasts, which refer to the balances between two sub-compositions (taxa A and taxa B) of a composition.</strong> </p>
+<p>The latest approach for this solution was to combine these log-contrasts with an <strong>elastic net</strong>, which is a penalized regression that allows to combine both types regularization (type 1 LASSO and type 2 RIDGE). This approach, implemented in the <em>coda4microbiome</em> R package, <strong>considers all the pairwise compositional balances, assigns each balance a coefficient and</strong>, since it uses elastic net, <strong>allows to reduce the number of variables</strong> by shrinking the coefficients of non-informative variables (log-contrasts) to 0. </p>
+<p>This log-contrast is an invariant function, since the sum of all coefficients is 0 (therefore, multiplying by a constant won't change the results). </p>
+<blockquote>
+<p>The sum of all coefficients is 0 because of the nature of compositional data? My guess is that it is due to the restriction of the sum of relative abundances being 1: if some relative abundances increase from a given sample to another, some other abundances will decrease. </p>
+</blockquote>
+<p>The <strong>most remarkable thing about this approach</strong> is that an easy <strong>reparametrization allows to directly relate the abundance of each marker with a given trait</strong>. </p>
+<p>Malu has a very nice <a href="https://malucalle.github.io/statistical-pills/coda4microbiome_explore_logratios.html">tutorial</a> on how to apply the log-contrast (or log-ratio) approach to explore both continuous and binary variables using the <em>coda4microbiome</em> package.</p>
 <hr />
-<h6 id="21-06-2022">21-06-2022</h6>
+<h6 id="01072022">01/07/2022</h6>
 
 
 </section>
